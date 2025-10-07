@@ -1,5 +1,5 @@
 <template>
-  <projecte />
+  <projecte/>
 </template>
 
 <script setup>

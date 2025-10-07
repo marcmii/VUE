@@ -1,33 +1,51 @@
-<template>
-  <v-container class="fill-height" max-width="900">
-    <div>
-      <h1>TASQUES</h1>
-      <v-btn @click="crearTasca">Crea Tasca</v-btn>
-      
-
-    </div>
-  </v-container>
-</template>
-
 <script setup>
+import { ref } from 'vue'
 
-  import { ref } from 'vue'
+const drawer = ref(false)
 
-  let tasques = [];
+// Menú lateral
+const items = [
+  
+  { title: 'Afegir Tasques', icon: 'mdi-plus-box', route: '/afegir' },
+  { title: 'Visualitzar Tasques', icon: 'mdi-calendar-search', route: '/visualitzar' },
+]
 
-  function crearTasca(){
-
-    const tasca = prompt("Esciu una tasca")
-
-    if (tasca){
-      alert("La tasca s'ha creat correctament")
-    }
-    mostrarTasques();
-  }
-
-  function mostrarTasques(){
-
-  }
-
-
+// Llista compartida de tasques
+const tasques = ref([])
 </script>
+
+<template>
+  <v-app>
+    <!-- Drawer -->
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          :to="item.route"
+          link
+          @click="drawer = false"
+          class="d-flex align-center"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!-- Toolbar -->
+    <v-toolbar color="blue" app>
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-toolbar-title>Gestor de Tasques</v-toolbar-title>
+    </v-toolbar>
+
+    <!-- Contingut principal -->
+    <v-main>
+      <router-view :tasques="tasques" />
+    </v-main>
+  </v-app>
+</template>
