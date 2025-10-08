@@ -1,17 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { tasques } from '../stores/global/global.js' 
 import { useRouter } from 'vue-router'
-
-const props = defineProps({
-  tasques: {
-    type: Array,
-    default: () => []
-  }
-})
 
 const router = useRouter()
 
-// Nova tasca
+
 const novaTasca = ref({
   titol: '',
   descripcio: '',
@@ -32,23 +26,12 @@ function validarFormulari() {
 function afegirTasca() {
   if (!validarFormulari()) return
 
-  // Afegeix la nova tasca a la llista (si no existeix)
-  const jaExisteix = props.tasques.find(
-    t => t.titol.toLowerCase() === novaTasca.value.titol.toLowerCase()
-  )
-
-  if (jaExisteix) {
-    alert('Aquesta tasca ja existeix!')
-    return
-  }
-
-  props.tasques.push({
+  tasques.value.push({
     titol: novaTasca.value.titol,
     descripcio: novaTasca.value.descripcio,
     estat: novaTasca.value.estat ? 'completada' : 'pendent'
   })
 
-  // Reinicia formulari
   novaTasca.value = { titol: '', descripcio: '', estat: false }
   alert('Tasca creada correctament!')
 }
@@ -81,11 +64,9 @@ function afegirTasca() {
         v-model="novaTasca.estat"
         label="Completada?"
         color="success"
-        inset
       ></v-switch>
 
       <v-btn type="submit" color="primary" block>Afegir Tasca</v-btn>
     </v-form>
   </v-container>
 </template>
-

@@ -1,22 +1,20 @@
 <script setup>
 import { ref } from 'vue'
+import { tasques } from '../stores/global/global.js'
+
 
 const drawer = ref(false)
 
-// Menú lateral
+
 const items = [
-  
   { title: 'Afegir Tasques', icon: 'mdi-plus-box', route: '/afegir' },
   { title: 'Visualitzar Tasques', icon: 'mdi-calendar-search', route: '/visualitzar' },
 ]
-
-// Llista compartida de tasques
-const tasques = ref([])
 </script>
 
 <template>
   <v-app>
-    <!-- Drawer -->
+    
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
         <v-list-item
@@ -37,15 +35,15 @@ const tasques = ref([])
       </v-list>
     </v-navigation-drawer>
 
-    <!-- Toolbar -->
+    
     <v-toolbar color="blue" app>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-toolbar-title>Gestor de Tasques</v-toolbar-title>
     </v-toolbar>
 
-    <!-- Contingut principal -->
+    
     <v-main>
-      <router-view :tasques="tasques" />
+      <router-view /> 
     </v-main>
   </v-app>
 </template>
